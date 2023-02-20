@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"fmt"
 	"html/template"
@@ -12,6 +13,9 @@ import (
 
 	"github.com/disintegration/imaging"
 )
+
+//go:embed dir.html
+var embedDirHtml embed.FS
 
 type DirInfo struct {
 	Name    string
@@ -64,7 +68,7 @@ func dirHandler(w http.ResponseWriter, r *http.Request) {
 
 	dirInfos := createDirInfos(root)
 
-	t, err := template.ParseFiles("dir.html")
+	t, err := template.ParseFS(embedDirHtml, "dir.html")
 	if err != nil {
 		log.Fatal("Parse template error:", err)
 	}
