@@ -14,6 +14,10 @@ import (
 	"github.com/disintegration/imaging"
 )
 
+const (
+	thumbHeight = 480
+)
+
 //go:embed dir.html
 var embedDirHtml embed.FS
 
@@ -112,7 +116,7 @@ func thumbHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	thumb := imaging.Resize(img, 270, 480, imaging.Lanczos)
+	thumb := imaging.Resize(img, thumbHeight*img.Bounds().Dx()/img.Bounds().Dy(), thumbHeight, imaging.Lanczos)
 	imaging.Encode(w, thumb, imaging.JPEG)
 }
 
